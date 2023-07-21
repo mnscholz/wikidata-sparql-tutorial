@@ -8,15 +8,15 @@ Anfragen an Graph-Datenbanken anhand der Wikidata-Schnittstelle
 Martin Scholz, UB Erlangen-Nürnberg, 2023-07-21
 <!-- .element class="small" -->
 
-http://github.com/mnscholz/wikidata-saprql-tutorial/
+http://github.com/mnscholz/wikidata-sparql-tutorial/
 
 
 
-## ⇨ Wikidata
+**⇨ Wikidata**
 
-### SPARQL
+SPARQL
 
-### Demo
+Demo
 
 
 
@@ -80,11 +80,31 @@ Manuelle Verweise über Identifikatoren:
 
 ## Wikidata als Datenquelle
 
-Wikidata-Daten stehen in unterschiedlicher Form bereit:
+- Fächerübergreifend, "Generalist"
+- Aggregator/Hub
+- ⚠ Daten eventuell lückenhaft!
+
+- - -
+
+Daten stehen in unterschiedlicher Form bereit:
 
 - [Dump](https://www.wikidata.org/wiki/Wikidata:Database_download)
 - [Linked Open Data (JSON, RDF, etc.)](https://www.wikidata.org/wiki/Wikidata:Data_access#Linked_Data_Interface_(URI))
 - [Sparql-Endpoint](https://query.wikidata.org)
+
+
+
+## Wikidata als Datensenke
+
+Möglichkeiten:
+- Manuelle Bearbeitung einzelner Entities
+- Manuelles Anlegen neuer Entities
+- Ingest größerer Datenmengen möglich 
+
+Zu beachten:
+- Relevanzregeln
+- Gesperrte Entitites
+- Absprache mit Wikidata-Team (Ingest)
 
 
 
@@ -109,15 +129,15 @@ Tutorials (PDF):
 
 
 
-### Wikidata
+Wikidata
 
-## ⇨ SPARQL
+**⇨ SPARQL**
 
-### Demo
+Demo
 
 
 
-> **S**imple **P***rotocol* **A**nd **R**DF **Q**uery **L***anguage*
+> Simple *Protocol* And RDF Query *Language*
 
 
 https://www.w3.org/TR/sparql11-query/
@@ -132,7 +152,7 @@ https://www.w3.org/TR/sparql11-query/
 
 ## RDF = Resource Description Framework
 
-- W3C-Standard zur Repräsentation von Daten als Graph / Netzwerk
+- W3C-Standard zur Repräsentation von Daten als Graph / Netzwerk / Triples / SPO-Aussagen
 
 - Linked Data: Global / Webbasiert; URIs als Identifikatoren
 
@@ -345,16 +365,6 @@ LIMIT 100
 
 
 
-## Strukturelemente in RDF
-
-- URIs: in allen Positionen eines Triples
-- Blank nodes (bnodes): nur S und O
-- Literale: nur O
-  - mit Datentyp, z.B. xsd:integer, xsd:date
-  - mit Sprach-Tag: en, de-CH
-  - ohne beides = reine Zeichenkette
-
-
 
 ## Automatisiert anfragen
 
@@ -409,12 +419,13 @@ curl -L 'https://query.wikidata.org/sparql?query=SELECT%20%3Fpic%20%3Fitem%20%3F
 
 
 
-## Beispiel
+## Weiterverarbeitung auf der Kommandozeile / per Skript
 
 ```
 curl -L 'https://query.wikidata.org/sparql?query=SELECT%20%3Fpic%20%3Fitem%20%3FcreatorLabel%20%3FitemLabel%20(YEAR(%3Fdate)%20as%20%3Fyear)%20%3Fedate%20%3Fldate%20%3Finv%20%3FmatLabel%20%3FgenreLabel%20%3FlocLabel%20%3Fpic_reified%20%3Fpicy%20%3Fpicz%0AWHERE%0A%7B%0A%3Fitem%20wdt%3AP180%20wd%3AQ154326%3B%0A%20%20%20%20%20%20%0Aoptional%20%7B%20%3Fitem%20wdt%3AP170%20%3Fcreator.%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP571%20%3Fdate.%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP1319%20%3Fedate.%20%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP1326%20%3Fldate.%20%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP18%20%3Fpic.%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP217%20%3Finv.%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP186%20%3Fmat.%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP136%20%3Fgenre.%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP276%20%3Floc.%20%7D%0Aoptional%20%7B%20%3Fitem%20wdt%3AP18%20%3Fpic_reified.%0A%20%20%20%20%20%20%20%20%20%3Fpic_reified%20%3Fpicy%20%3Fpicz.%20%7D%0A%20%20%0ASERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%2C%5BAUTOLANGUAGE%5D%22%20%7D%0A%7D%0AORDER%20BY%20%3Fyear%0A' | 
 xmlstarlet sel -T -t -m "//*[@name='item']" -v 'substring-after(*, "entity/")' -o ':' -v "../*[@name='pic']/*" -o ';' -n > entities_pics.txt
 ```
+
 
 
 ## Fortgeschrittene Features
@@ -429,11 +440,11 @@ xmlstarlet sel -T -t -m "//*[@name='item']" -v 'substring-after(*, "entity/")' -
 
 
 
-### Wikidata
+Wikidata
 
-### SPARQL
+SPARQL
 
-## ⇨ Demo
+**⇨ Demo**
 
 
 
